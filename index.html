@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Words Search Pro - Elite Edition</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="phone-container" style="position: relative;">
+
+        <nav class="top-nav" id="main-nav">
+            <a href="javascript:void(0)" class="nav-item" onclick="showPage('page-lang')">
+                <span>🏠</span>
+                <small>Home</small>
+            </a>
+            <a href="javascript:void(0)" class="nav-item" onclick="showPage('page-levels')">
+                <span>📊</span>
+                <small>Levels</small>
+            </a>
+            <a href="javascript:void(0)" class="nav-item" onclick="showPage('page-settings')">
+                <span>⚙️</span>
+                <small>Settings</small>
+            </a>
+            <a href="help.html" class="nav-item">
+                <span>❓</span>
+                <small>Help</small>
+            </a>
+            <a href="about.html" class="nav-item">
+                <span>ℹ️</span>
+                <small>About</small>
+            </a>
+        </nav>
+
+        <div id="modal-pause" class="overlay">
+            <div class="modal-content">
+                <h2 style="margin-top:0">Game Paused</h2>
+                <div style="display: flex; justify-content: center; gap: 15px; margin: 25px 0;">
+                    <button class="icon-btn tall-btn" onclick="showPage('page-levels')">☰</button>
+                    <button class="icon-btn tall-btn" onclick="launch(activeLvl)">↺</button>
+                    <button class="icon-btn tall-btn accent-bg" onclick="resumeGame()">▶</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-win" class="overlay">
+            <div class="modal-content">
+                <div class="emoji-large">🎉</div>
+                <h1 class="modal-title">BRILLIANT!</h1>
+                <p class="dim-text">Level <span id="m-lvl">1</span> completed!</p>
+                <button class="primary-btn full-width" onclick="nextLevel()">NEXT LEVEL</button>
+            </div>
+        </div>
+
+        <div id="modal-fail" class="overlay">
+            <div class="modal-content">
+                <div class="emoji-large">⏰</div>
+                <h1 class="modal-title danger-text">TIME UP!</h1>
+                <p class="dim-text">Don't give up! Try again.</p>
+                <button class="primary-btn full-width danger-bg" onclick="launch(activeLvl)">RETRY</button>
+                <button class="icon-btn full-width no-border" onclick="showPage('page-levels')">Go to Levels</button>
+            </div>
+        </div>
+
+        <div id="page-lang" class="page active">
+            <div class="emoji-header">🔠</div>
+            <h1>WORD HUNT</h1>
+            <p class="dim-text margin-b">Select your language</p>
+            <div class="lang-grid">
+                <div class="lang-card active" onclick="selectLang('EN', this)"><span class="name">English</span></div>
+                <div class="lang-card" onclick="selectLang('FR', this)"><span class="name">France</span></div>
+                <div class="lang-card" onclick="selectLang('ES', this)"><span class="name">Spain</span></div>
+                <div class="lang-card" onclick="selectLang('DE', this)"><span class="name">Germany</span></div>
+                <div class="lang-card" onclick="selectLang('IT', this)"><span class="name">Italy</span></div>
+                <div class="lang-card" onclick="selectLang('PT', this)"><span class="name">Portugal</span></div>
+            </div>
+            <button class="primary-btn" onclick="showPage('page-difficulty')">GET STARTED</button>
+        </div>
+
+        <div id="page-difficulty" class="page">
+            <div class="header-nav">
+                <button class="icon-btn" onclick="showPage('page-lang')">←</button>
+                <h2 style="margin:0">Difficulty</h2>
+                <div style="width:45px"></div>
+            </div>
+            <p class="dim-text margin-b">Choose your challenge level</p>
+            <div class="card diff-card" onclick="setDifficulty('easy')">
+                <h3>EASY</h3>
+                <p>8x8 Grid • 2:00 Minutes • Relaxed Search</p>
+            </div>
+            <div class="card diff-card" onclick="setDifficulty('medium')">
+                <h3>MEDIUM</h3>
+                <p>10x10 Grid • 1:30 Minutes • Standard Mode</p>
+            </div>
+            <div class="card diff-card" onclick="setDifficulty('hard')">
+                <h3>HARD</h3>
+                <p>12x12 Grid • 1:00 Minute • Elite Challenge</p>
+            </div>
+        </div>
+
+        <div id="page-levels" class="page">
+            <div class="header-nav">
+                <button class="icon-btn" onclick="showPage('page-difficulty')">←</button>
+                <h2 style="margin:0">Levels</h2>
+                <div style="width:45px"></div>
+            </div>
+            <div id="level-list" class="level-grid"></div>
+        </div>
+
+        <div id="page-settings" class="page">
+            <div class="header-nav">
+                <button class="icon-btn glass-btn" onclick="showPage('page-lang')">←</button>
+                <h2 class="settings-title">Settings</h2>
+                <div style="width:45px"></div>
+            </div>
+
+            <div class="glass-container">
+                <div class="setting-card">
+                    <div class="setting-info">
+                        <h3>Sound Effects</h3>
+                        <div class="setting-controls">
+                            <span class="icon-cyan">🔊</span>
+                            <label class="switch">
+                                <input type="checkbox" id="sound-toggle" checked onclick="toggleMute()">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setting-card">
+                    <div class="setting-info">
+                        <h3>Reset All Data</h3>
+                        <div class="setting-controls">
+                            <span class="icon-red">🗑️</span>
+                            <button class="clear-btn" onclick="resetProgress()">CLEAR</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setting-card">
+                    <div class="setting-info">
+                        <h3>App Version <span class="version-highlight">1.0.0</span></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-game" class="page">
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-fill"></div>
+            </div>
+
+            <div class="header-nav margin-b">
+                <button class="icon-btn" onclick="pauseGame()">||</button>
+                <div>
+                    <div class="label-text">LEVEL</div>
+                    <div id="lvl-num" class="lvl-display">01</div>
+                </div>
+                <button id="hint-btn" class="icon-btn" onclick="useHint()">💡</button>
+                <button id="mute-btn" class="icon-btn" onclick="toggleMute()">🔊</button>
+
+                <div id="timer-box" class="timer-container">
+                    <span id="timer-icon">⏱</span>
+                    <span id="timer">01:00</span>
+                </div>
+            </div>
+            <div id="grid" class="grid"></div>
+            <div id="word-list" class="word-box"></div>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sfx-success">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sfx-fail">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
