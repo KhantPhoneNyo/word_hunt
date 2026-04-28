@@ -500,7 +500,7 @@ function handleWin() {
 }
 
 const difficultySettings = {
-    'easy': { size: 8, time: 120, label: "EASY" },
+    'easy': { size: 9, time: 120, label: "EASY" },
     'medium': { size: 10, time: 90, label: "MEDIUM" },
     'hard': { size: 12, time: 60, label: "HARD" }
 };
@@ -542,7 +542,7 @@ function setupGrid() {
 
     words.forEach(word => {
         let placed = false; let attempts = 0;
-        while (!placed && attempts < 100) {
+        while (!placed && attempts < 500) {
             const dir = Math.floor(Math.random() * 3);
             const r = Math.floor(Math.random() * size), c = Math.floor(Math.random() * size);
             if (checkFit(grid, word, r, c, dir, size)) {
